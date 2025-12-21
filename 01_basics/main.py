@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 
 app = FastAPI(
     title="Learn FastApi"
@@ -13,8 +13,12 @@ async def ping():
 async def hello(name: str):
     return {"hello": name}
 
+def get_query(q: str | None = None):
+    return q
 
-
+@app.get("/items")
+async def read_items(query: str = Depends(get_query)):
+    return {"result": query}
 
 # fastapi dev ...
 # uvicorn main:app --reload
