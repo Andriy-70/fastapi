@@ -29,7 +29,16 @@ async def create_tasks(task: Task):
 @app.get("/tasks/{task_id}")
 async def get_task(task_id: int):
 
-    if task_id  len(task_db):
+    if task_id >= len(task_db):
         raise HTTPException(status_code=404, detail="нема такого таску")
 
     return task_db[task_id]
+
+@app.delete("/tasks/{task_id}")
+async def delete_task(task_id: int):
+
+    if task_id >= len(task_db):
+        raise HTTPException(status_code=404, detail="нема такого таску")
+
+    task_db.pop(task_id)
+    return {"message": "all good!"}
